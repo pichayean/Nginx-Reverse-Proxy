@@ -1,13 +1,31 @@
 version: '3'
 services:
-  proxy:
+    image: jwilder/nginx-proxy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:                     
+      # - ./current/public:/usr/share/nginx/html
+      # - ./certs:/etc/nginx/certs:ro
+      - ./default.conf:/etc/nginx/conf.d/default.conf
+      - ./backend-not-found.html:/var/www/html/backend-not-found.html
+      - ./includes/:/etc/nginx/includes/
     build: ./
     networks:
       - site1
       - site2
-    ports:
-      - 80:80
+      - info
+      - macusapi
 
+  # letsencrypt:
+  #   image: jrcs/letsencrypt-nginx-proxy-companion
+  #   restart: always
+  #   volumes:
+  #     - ./certs:/etc/nginx/certs:rw
+  #     - /var/run/docker.sock:/var/run/docker.sock:ro
+  #     - vhost:/etc/nginx/vhost.d
+  #     - ./current/public:/usr/share/nginx/html
 networks:
   site1:
     external:
@@ -15,3 +33,9 @@ networks:
   site2:
     external:
       name: site2_default
+  info:                             
+    external:                       
+      name: info-line-bot_default   
+  macusapi:                         
+    external:                       
+      name: macus-service_macus-api 
