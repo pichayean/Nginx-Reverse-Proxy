@@ -7,7 +7,6 @@ services:
       - "80:80"
       - "443:443"
     volumes:                     
-      - ./current/public:/usr/share/nginx/html
       - ./certs:/etc/nginx/certs:ro
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
