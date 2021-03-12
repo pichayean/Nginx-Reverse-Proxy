@@ -35,6 +35,7 @@ services:
 volumes:
   vhost:
   dhparam:
+  html:
 networks:
   site1:
     external:
